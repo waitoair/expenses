@@ -1,5 +1,6 @@
 import 'package:expenses/models/transaction.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 main() => runApp(ExpensesApp());
 
@@ -39,7 +40,6 @@ class MyHomePage extends StatelessWidget {
         title: Text("Despesas Pessoais"),
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Container(
@@ -61,17 +61,17 @@ class MyHomePage extends StatelessWidget {
                       ),
                       decoration: BoxDecoration(
                         border: Border.all(
-                          color: Colors.purple,
+                          color: Colors.purple.shade700,
                           width: 2,
                         )
                       ),
                       padding: const EdgeInsets.all(10),
                       child: Text(
-                        transaction.value.toString(),
-                        style: const TextStyle(
+                        'R\$ ${transaction.value.toStringAsFixed(2)}',
+                        style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
-                          color: Colors.purple,
+                          color: Colors.purple.shade700,
                         )
                       ),
                     ),
@@ -86,7 +86,7 @@ class MyHomePage extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          transaction.date.toString(),
+                          DateFormat('d MMM y').format(transaction.date),
                           style: TextStyle(
                             color: Colors.grey[700],
                           ),
@@ -97,9 +97,55 @@ class MyHomePage extends StatelessWidget {
                 )
               );
             }).toList(),
+          ),
+          Card(
+            elevation: 5,
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                children: <Widget>[
+                  CustomTextField(
+                      label: 'Título'
+                  ),
+                  CustomTextField(
+                      label: 'Valor (R\$)'
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      ElevatedButton(
+                          onPressed: () {},
+                          child: Text('Nova Transação'),
+                        style: ElevatedButton.styleFrom(
+                            primary: Colors.purple.shade700
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
           )
         ],
       )
+    );
+  }
+}
+
+class CustomTextField extends StatelessWidget{
+  final String label;
+
+  const CustomTextField({
+    Key? key,
+    required this.label
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+ return TextField(
+     decoration: InputDecoration(
+       labelText: label
+     ),
     );
   }
 }
