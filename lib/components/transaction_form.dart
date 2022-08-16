@@ -1,65 +1,53 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-
 class TransactionForm extends StatelessWidget {
-  TransactionForm({Key? key}) : super(key: key);
-
   final titleController = TextEditingController();
   final valueController = TextEditingController();
+
+  final void Function(String, double) onSubmit;
+
+  TransactionForm(this.onSubmit, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Card(
       elevation: 5,
       child: Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(10),
         child: Column(
-          children: <Widget>[
-            CustomTextField(
+          children: [
+            TextField(
               controller: titleController,
-              label: 'Título'
+              decoration: const InputDecoration(
+                labelText: 'Título',
+              ),
             ),
-            CustomTextField(
+            TextField(
               controller: valueController,
-              label: 'Valor (R\$)',
+              decoration: const InputDecoration(
+                labelText: 'Valor (R\$)',
+              ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    print(titleController.text);
-                    print(valueController.text);
-                  },
-                  child: Text('Nova Transação'),
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.purple.shade700
+              children: <Widget>[
+                TextButton(
+                  child: const Text(
+                    'Nova Transação',
+                    style: TextStyle(
+                      color: Colors.purple,
+                    ),
                   ),
-                ),
+                  onPressed: () {
+                    final title = titleController.text;
+                    final value = double.tryParse(valueController.text) ?? 0;
+                    onSubmit(title, value);
+                  },
+                )
               ],
-            )
+            ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class CustomTextField extends StatelessWidget{
-  final String label;
-
-  const CustomTextField({
-    Key? key,
-    required this.label,
-    required TextEditingController controller,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-      decoration: InputDecoration(
-        labelText: label,
       ),
     );
   }
