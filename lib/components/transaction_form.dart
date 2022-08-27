@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+
 class TransactionForm extends StatefulWidget {
   TransactionForm(this.onSubmit, {Key? key}) : super(key: key);
 
@@ -52,10 +53,10 @@ class _TransactionFormState extends State<TransactionForm> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 TextButton(
-                  child: const Text(
+                  child: Text(
                     'Nova Transação',
                     style: TextStyle(
-                      color: Colors.purple,
+                      color: Theme.of(context).colorScheme.primary,
                     ),
                   ),
                   onPressed: _submitForm,
