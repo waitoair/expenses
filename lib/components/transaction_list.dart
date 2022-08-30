@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../models/transaction.dart';
@@ -12,7 +11,22 @@ class TransactionList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 400,
-      child: ListView.builder(
+      child: transactions.isEmpty ? Column(
+        children: <Widget>[
+          SizedBox(height: 20),
+          Text(
+            "Nenhuma Transacao Cadastrada!",
+            style: Theme.of(context).textTheme.headline6,
+          ),
+          SizedBox(height: 20),
+          Container(
+            height: 200,
+            child: Image.asset('assets/images/waiting.png',
+              fit: BoxFit.cover,
+            ),
+          )
+        ],
+      ) : ListView.builder(
         itemCount: transactions.length,
         itemBuilder: (ctx, index) {
           final transaction = transactions[index];
@@ -45,15 +59,12 @@ class TransactionList extends StatelessWidget {
                   children: <Widget>[
                     Text(
                       transaction.title,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      ),
+                      style: Theme.of(context).textTheme.headline6,
                     ),
                     Text(
                       DateFormat('d MMM y').format(transaction.date),
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.primary,
+                      style: const TextStyle(
+                        color: Colors.grey,
                       ),
                     ),
                   ],
